@@ -1,4 +1,5 @@
 import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
 import sys
@@ -39,6 +40,22 @@ def Generate_C(x, q, n, M):
     return C
 
 '''
+Creates Matrix H
+@param Standar_G_Matrix M
+@return return H
+'''
+def Create_H(M,q):
+    n = M.shape[1]
+    k = M.shape[0]
+    #Matrix_I = M[:,range(k)]
+    Matrix_P = M[:,range((n-k-1),n)]
+    P_Transpose = -1*Matrix_P.T
+    P_Transpose[P_Transpose < 0] +=q
+    Matrix_I = np.identity((n-k), dtype=int)
+    H = np.append(P_Transpose,Matrix_I, axis=1)
+    return H
+
+'''
 Find Min distance of Code C
 @param n (length of code), k (# of basis), Matrix_G generator matrix
 @return min distance d
@@ -53,7 +70,6 @@ def Min_dist(C):
             if (w<min):
                 min = w
     return min
-
 
 '''
 Create x vector
@@ -97,6 +113,7 @@ Matrix = Estandar_G_Matrix(n, k, q)
 x = CreateX(q,k)
 C = Generate_C(x,q,n,Matrix)
 min_D = Min_dist(C)
+H = Create_H(Matrix,q)
 
 # Show in Terminal
 print("The standar G Matrix is:")
@@ -108,6 +125,16 @@ print(" ")
 print("The Code C is:")
 print(C)
 print(" ")
-print("The min distance of C is:")
-print(min_D)
+if(min_D<8):    
+    print("The min distance of C is:")
+    print(min_D)
+    print("The Control Matrix H is:")
+    print(H)
+else:
+    print("The min distance is grater than 7 so the process is going to end")
+    print(min_D)
+
+
+
+
 
