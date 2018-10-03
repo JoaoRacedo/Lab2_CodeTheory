@@ -45,7 +45,7 @@ def Create_H(M,q):
     n = M.shape[1]
     k = M.shape[0]
     #Matrix_I = M[:,range(k)]
-    Matrix_P = M[:,range((n-k-1),n)]
+    Matrix_P = M[:,range((k),n)]
     P_Transpose = -1*Matrix_P.T
     P_Transpose[P_Transpose < 0] +=q
     Matrix_I = np.identity((n-k), dtype=int)
@@ -60,9 +60,7 @@ Find Min distance of Code C
 def Min_dist(C):
     min = sys.maxsize
     for each in C:
-        print(each)
         w = np.count_nonzero(each)
-        print(w)
         if(w != 0):
             if (w<min):
                 min = w
